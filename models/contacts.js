@@ -9,13 +9,20 @@ const contactsSchema = Schema(
     },
     email: {
       type: String,
+      required: [true, 'Set email for contact'],
     },
     phone: {
       type: String,
+      required: [true, 'Set phone for contact'],
     },
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
@@ -25,6 +32,7 @@ const joiSchema = Joi.object({
   name: Joi.string().required().min(3),
   email: Joi.string().required().min(7),
   phone: Joi.string().required(),
+  favorite: Joi.boolean(),
 });
 
 const joiFavoriteSchema = Joi.object({
