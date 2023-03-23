@@ -1,4 +1,4 @@
-const { Unauthorized } = require('http-errors');
+const { Unauthorized, BadRequest } = require('http-errors');
 const { User } = require('../../models');
 const { sendEmail } = require('../../utils');
 
@@ -9,7 +9,7 @@ const resendVerifyEmail = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) throw Unauthorized('Email Not Found');
-  if (user.verify) throw Unauthorized('Email already verify');
+  if (user.verify) throw BadRequest('Verification has already been passed');
 
   const mail = {
     to: email,

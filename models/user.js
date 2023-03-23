@@ -60,7 +60,7 @@ const joiLoginSchema = Joi.object({
 });
 
 const emailSchema = Joi.object({
-  email: Joi.string().required(),
+  email: Joi.string().required('missing required field email'),
 });
 
 const joiSubscriptionSchema = Joi.object({
