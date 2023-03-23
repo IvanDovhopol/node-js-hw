@@ -18,10 +18,7 @@
 - patch **'/avatars'** - смена аватарки;
 - get **'/verify/:verificationToken'** - подтверждение email;
 - post **'/verify'** - повторная отправка письма с подтверждением;
-
-### http://localhost3000/api/auth
-
-- patch **'/:id'** - изменение типа подписки пользователя ('starter', 'pro', 'business') по айди;
+- patch **'/:id/subscription'** - изменение типа подписки пользователя ('starter', 'pro', 'business') по айди;
 
 ### http://localhost3000/api/contacts
 
