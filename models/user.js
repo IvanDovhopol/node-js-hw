@@ -27,6 +27,14 @@ const userSchema = Schema(
       type: String,
       required: true,
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -40,9 +48,19 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 const joiSchema = Joi.object({
+  name: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().min(6).required(),
   subscription: Joi.valid('starter', 'pro', 'business'),
+});
+
+const joiLoginSchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().min(6).required(),
+});
+
+const emailSchema = Joi.object({
+  email: Joi.string().required(),
 });
 
 const joiSubscriptionSchema = Joi.object({
@@ -53,6 +71,8 @@ const User = model('user', userSchema);
 
 module.exports = {
   joiSchema,
+  joiLoginSchema,
+  emailSchema,
   User,
   joiSubscriptionSchema,
 };
