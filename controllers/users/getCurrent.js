@@ -2,7 +2,7 @@ const { Unauthorized } = require('http-errors');
 const { User } = require('../../models');
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
+  const { email, avatarURL } = req.user;
   const user = await User.findOne({ email });
 
   if (!user) throw new Unauthorized('Not authorized');
@@ -14,6 +14,7 @@ const getCurrent = async (req, res) => {
       user: {
         email,
         subscription: user.subscription,
+        avatarURL,
       },
     },
   });
