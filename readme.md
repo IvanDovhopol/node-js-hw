@@ -9,7 +9,7 @@
 
 ## Пути:
 
-### http://localhost3000/api/users
+### http://localhost:3000/api/users
 
 - post **'/signup'** - регистрация;
 - post **'/login'** - авторизация;
@@ -20,7 +20,7 @@
 - post **'/verify'** - повторная отправка письма с подтверждением;
 - patch **'/:id/subscription'** - изменение типа подписки пользователя ('starter', 'pro', 'business') по айди;
 
-### http://localhost3000/api/contacts
+### http://localhost:3000/api/contacts
 
 - get **'/'** - получаем все контактыпользователя;
 - get **'/:contactId'** - получаем нужный контакт пользователя по ID;
