@@ -1,10 +1,11 @@
 const { Conflict } = require('http-errors');
 const gravatar = require('gravatar');
 const { v4 } = require('uuid');
+const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 const { sendEmail } = require('../../utils');
 
-const { BASE_URL } = process.env;
+const { BASE_URL, SECRET_KEY } = process.env;
 
 const signup = async (req, res) => {
   const { name, email, password, subscription = 'starter' } = req.body;
@@ -12,14 +13,20 @@ const signup = async (req, res) => {
   const user = await User.findOne({ email });
   if (user) throw new Conflict('Email in use');
 
+  function generateToken(user) {
+    return jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+  }
+
   const avatarURL = gravatar.url(email);
 
   const verificationToken = v4();
-  const newUser = new User({ email, subscription, avatarURL, verificationToken });
+  const newUser = new User({ name, email, subscription, avatarURL, verificationToken });
   newUser.setPassword(password);
-  newUser.save();
+  await newUser.save();
 
-  console.log('verificationToken: ', verificationToken);
+  const token = generateToken(newUser);
+
+  await User.findOneAndUpdate({ email }, { $set: { token } });
 
   const mail = {
     to: email,
@@ -32,10 +39,12 @@ const signup = async (req, res) => {
     success: true,
     code: 201,
     data: {
+      token,
       user: {
         name,
         email,
         subscription,
+        avatarURL: newUser.avatarURL,
         verificationToken,
       },
     },

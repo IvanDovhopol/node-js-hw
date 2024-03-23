@@ -10,6 +10,10 @@ const fetchAll = async (req, res) => {
     '_id name email'
   );
 
+  // for clear collection contacts
+  // const { collection } = await Contact;
+  // collection.deleteMany({});
+
   res.json({
     success: true,
     code: 200,
